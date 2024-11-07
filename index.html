@@ -136,32 +136,28 @@
             <p>Untuk membeli kode, silakan <a href="https://example.com" target="_blank">hubungi admin</a>. Admin akan memberikan kode setelah pembayaran berhasil.</p>
         </div>
 
-        <!-- Tombol Buy untuk melanjutkan pembelian -->
+        <!-- Tombol Kirim untuk memverifikasi kode -->
         <div class="buy-button-container">
-            <button onclick="buyCode()">Buy</button>
+            <button onclick="submitCode()">Kirim</button>
         </div>
     </div>
 
     <script>
-        // Fungsi untuk menghasilkan kode acak 9 digit dengan angka dan simbol
-        function generateRandomCode() {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?';
-            let result = '';
-            for (let i = 0; i < 9; i++) {
-                const randomIndex = Math.floor(Math.random() * characters.length);
-                result += characters[randomIndex];
-            }
-            return result;
-        }
-
-        // Menampilkan kode acak di halaman
-        document.getElementById('randomCode').innerText = 'Kode Akses Anda: ' + generateRandomCode();
+        // Daftar kode yang diberikan oleh admin
+        const validCodes = [
+            'A1B2C3D4E',  // Kode pertama
+            'F5G6H7I8J',  // Kode kedua
+            'K9L0M1N2O',  // Kode ketiga
+            // Tambahkan kode lain di sini
+        ];
 
         // Fungsi untuk memverifikasi kode yang dimasukkan
         function submitCode() {
             let code = document.getElementById('vipCode').value;
-            if (code.length === 9) {
-                // Menghilangkan input dan tombol setelah kode dimasukkan
+
+            // Periksa apakah kode yang dimasukkan ada dalam daftar kode yang valid
+            if (validCodes.includes(code)) {
+                // Jika kode valid, sembunyikan input dan beri tahu pengguna
                 document.querySelector('.code-input').classList.add('hidden');
                 document.querySelector('.generated-code').classList.add('hidden');
                 document.querySelector('.purchase-info').classList.add('hidden');
@@ -169,14 +165,9 @@
                 alert("Kode Anda valid. Silakan lanjut ke halaman beranda.");
                 window.location.href = "beranda.html"; // Ganti dengan URL halaman beranda Anda
             } else {
+                // Jika kode salah, beri tahu pengguna
                 alert("Kode yang dimasukkan tidak valid. Harap masukkan 9 digit kode yang diberikan oleh admin.");
             }
-        }
-
-        // Fungsi untuk tombol Buy
-        function buyCode() {
-            alert("Anda telah membeli kode. Silakan hubungi admin untuk mendapatkan kode akses.");
-            // Dapat ditambahkan logika lain sesuai kebutuhan
         }
     </script>
 </body>
