@@ -44,41 +44,24 @@
 
         .code-input {
             margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
         }
 
-        input[type="text"] {
-            padding: 12px;
-            width: 80%;
-            border-radius: 5px;
-            border: 2px solid #f00;
-            background-color: #222;
+        .code-box {
+            font-size: 30px;
             color: #fff;
-            font-size: 20px;
+            border-bottom: 2px solid #f00;
+            width: 30px;
             text-align: center;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+            padding: 10px;
+            background-color: transparent;
         }
 
-        input[type="text"]:focus {
+        .code-box:focus {
             outline: none;
             border-color: #ff0000;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 1);
-        }
-
-        button {
-            padding: 12px 25px;
-            background-color: #f00;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 20px;
-            margin-top: 20px;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
-        }
-
-        button:hover {
-            background-color: #c00;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 1);
         }
 
         .image-container img {
@@ -109,6 +92,11 @@
         .hidden {
             display: none;
         }
+
+        /* Sembunyikan input ketika diisi */
+        .hidden-input {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -117,8 +105,16 @@
         <p>Masukkan kode yang diberikan oleh admin untuk melanjutkan.</p>
         
         <div class="code-input">
-            <label for="vipCode">Masukkan Kode Akses Anda:</label>
-            <input type="text" id="vipCode" placeholder="Masukkan kode 9 digit" required>
+            <!-- Kolom kode yang terdiri dari 9 bagian -->
+            <div class="code-box" id="code1"></div>
+            <div class="code-box" id="code2"></div>
+            <div class="code-box" id="code3"></div>
+            <div class="code-box" id="code4"></div>
+            <div class="code-box" id="code5"></div>
+            <div class="code-box" id="code6"></div>
+            <div class="code-box" id="code7"></div>
+            <div class="code-box" id="code8"></div>
+            <div class="code-box" id="code9"></div>
         </div>
 
         <!-- Menampilkan kode acak -->
@@ -135,38 +131,66 @@
         <div class="purchase-info">
             <p>Untuk membeli kode, silakan <a href="https://example.com" target="_blank">hubungi admin</a>. Admin akan memberikan kode setelah pembayaran berhasil.</p>
         </div>
-
-        <!-- Tombol Kirim untuk memverifikasi kode -->
-        <div class="buy-button-container">
-            <button onclick="submitCode()">Kirim</button>
-        </div>
     </div>
 
     <script>
-        // Daftar kode yang diberikan oleh admin
-        const validCodes = [
-            'A1B2C3D4E',  // Kode pertama
-            'F5G6H7I8J',  // Kode kedua
-            'K9L0M1N2O',  // Kode ketiga
-            // Tambahkan kode lain di sini
-        ];
+        // Fungsi untuk menghasilkan kode acak 9 digit dengan angka dan simbol
+        function generateRandomCode() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?';
+            let result = '';
+            for (let i = 0; i < 9; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                result += characters[randomIndex];
+            }
+            return result;
+        }
+
+        // Menampilkan kode acak di halaman
+        document.getElementById('randomCode').innerText = 'Kode Akses Anda: ' + generateRandomCode();
+
+        // Fungsi untuk menangani input kode
+        function handleCodeInput(event, nextElement) {
+            const codeBoxes = document.querySelectorAll('.code-box');
+            for (let i = 0; i < codeBoxes.length; i++) {
+                if (codeBoxes[i] === event.target) {
+                    codeBoxes[i].innerText = '🔥';
+                }
+            }
+
+            // Pindah ke input berikutnya
+            if (nextElement) {
+                nextElement.focus();
+            }
+        }
+
+        // Menambahkan event listener ke setiap kotak kode
+        const codeBoxes = document.querySelectorAll('.code-box');
+        codeBoxes.forEach((box, index) => {
+            box.addEventListener('click', () => box.focus());
+            box.addEventListener('input', function (event) {
+                handleCodeInput(event, codeBoxes[index + 1] || null);
+            });
+        });
 
         // Fungsi untuk memverifikasi kode yang dimasukkan
         function submitCode() {
-            let code = document.getElementById('vipCode').value;
+            let code = '';
+            document.querySelectorAll('.code-box').forEach(box => {
+                code += box.innerText;
+            });
 
-            // Periksa apakah kode yang dimasukkan ada dalam daftar kode yang valid
+            // Cek apakah kode valid
+            const validCodes = [
+                'A1B2C3D4E',  // Kode pertama
+                'F5G6H7I8J',  // Kode kedua
+                'K9L0M1N2O',  // Kode ketiga
+            ];
+
             if (validCodes.includes(code)) {
-                // Jika kode valid, sembunyikan input dan beri tahu pengguna
-                document.querySelector('.code-input').classList.add('hidden');
-                document.querySelector('.generated-code').classList.add('hidden');
-                document.querySelector('.purchase-info').classList.add('hidden');
-                document.querySelector('.buy-button-container').classList.add('hidden');
                 alert("Kode Anda valid. Silakan lanjut ke halaman beranda.");
                 window.location.href = "beranda.html"; // Ganti dengan URL halaman beranda Anda
             } else {
-                // Jika kode salah, beri tahu pengguna
-                alert("Kode yang dimasukkan tidak valid. Harap masukkan 9 digit kode yang diberikan oleh admin.");
+                alert("Kode yang dimasukkan tidak valid. Harap masukkan kode yang diberikan oleh admin.");
             }
         }
     </script>
