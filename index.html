@@ -41,25 +41,23 @@
             color: #f00;
         }
 
-        .code-display span {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            margin: 5px;
-            line-height: 40px;
-        }
-
-        .filled {
-            color: #ff6600;
-            font-size: 28px;
-        }
-
         .input {
-            color: #f00;
+            font-size: 36px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .input.filled {
+            color: #ff6600;
         }
 
         p {
             font-size: 18px;
+        }
+
+        .bracket {
+            display: inline-block;
+            margin: 0 5px;
         }
     </style>
 </head>
@@ -68,35 +66,41 @@
         <h1>Masukkan Kode Akses</h1>
         <p>Masukkan kode 9 digit yang diberikan oleh admin:</p>
         <div class="code-display" id="codeDisplay">
-            <span class="input">_</span><span class="input">_</span><span class="input">_</span>
-            <span class="input">_</span><span class="input">_</span><span class="input">_</span>
-            <span class="input">_</span><span class="input">_</span><span class="input">_</span>
+            <span class="bracket">[</span>
+            <span class="input" id="input1"></span>
+            <span class="input" id="input2"></span>
+            <span class="input" id="input3"></span>
+            <span class="input" id="input4"></span>
+            <span class="input" id="input5"></span>
+            <span class="input" id="input6"></span>
+            <span class="input" id="input7"></span>
+            <span class="input" id="input8"></span>
+            <span class="input" id="input9"></span>
+            <span class="bracket">]</span>
         </div>
     </div>
 
     <script>
-        const codeDisplay = document.getElementById('codeDisplay');
-        const codeElements = codeDisplay.getElementsByClassName('input');
+        const inputs = document.querySelectorAll('.input');
         let code = '';
 
-        document.addEventListener('keydown', (event) => {
-            const key = event.key;
-
-            // Mengisi kode jika yang ditekan adalah angka atau simbol yang valid
-            if ((key >= '0' && key <= '9') || ['!', '@', '#', '$', '%', '^', '&', '*'].includes(key)) {
-                for (let i = 0; i < codeElements.length; i++) {
-                    if (codeElements[i].textContent === '_') {
-                        codeElements[i].textContent = '🔥'; // Mengganti _ dengan simbol
-                        code += key; // Menambahkan kode yang dimasukkan
-                        break;
+        // Fungsi untuk menangani klik pada setiap karakter input
+        inputs.forEach((input, index) => {
+            input.addEventListener('click', function() {
+                if (code.length < 9) {
+                    let enteredChar = prompt("Masukkan karakter kode (angka atau simbol):");
+                    if (enteredChar) {
+                        input.textContent = enteredChar; // Memasukkan karakter ke dalam input
+                        input.classList.add('filled'); // Menambahkan kelas untuk perubahan warna
+                        code += enteredChar; // Menambahkan karakter ke kode yang dimasukkan
                     }
                 }
-            }
 
-            // Jika kode sudah lengkap, langsung arahkan tanpa notifikasi
-            if (code.length === 9) {
-                window.location.href = "beranda.html"; // Ganti dengan halaman yang sesuai
-            }
+                // Jika kode sudah lengkap, langsung arahkan tanpa notifikasi
+                if (code.length === 9) {
+                    window.location.href = "beranda.html"; // Ganti dengan halaman yang sesuai
+                }
+            });
         });
     </script>
 </body>
