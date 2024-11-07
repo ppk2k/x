@@ -42,17 +42,14 @@
         }
 
         .input {
-            font-size: 36px;
-            cursor: pointer;
-            font-weight: bold;
             display: inline-block;
-            width: 40px;
+            width: 30px;
             height: 40px;
             text-align: center;
             line-height: 40px;
-            border: 2px solid #f00;
             margin: 5px;
-            background-color: transparent;
+            font-size: 30px;
+            color: #f00;
         }
 
         .input.filled {
@@ -76,15 +73,15 @@
         <p>Masukkan kode 9 digit yang diberikan oleh admin:</p>
         <div class="code-display" id="codeDisplay">
             <span class="bracket">[</span>
-            <span class="input" id="input1" contenteditable="true"></span>
-            <span class="input" id="input2" contenteditable="true"></span>
-            <span class="input" id="input3" contenteditable="true"></span>
-            <span class="input" id="input4" contenteditable="true"></span>
-            <span class="input" id="input5" contenteditable="true"></span>
-            <span class="input" id="input6" contenteditable="true"></span>
-            <span class="input" id="input7" contenteditable="true"></span>
-            <span class="input" id="input8" contenteditable="true"></span>
-            <span class="input" id="input9" contenteditable="true"></span>
+            <span class="input" id="input1"></span>
+            <span class="input" id="input2"></span>
+            <span class="input" id="input3"></span>
+            <span class="input" id="input4"></span>
+            <span class="input" id="input5"></span>
+            <span class="input" id="input6"></span>
+            <span class="input" id="input7"></span>
+            <span class="input" id="input8"></span>
+            <span class="input" id="input9"></span>
             <span class="bracket">]</span>
         </div>
     </div>
@@ -93,30 +90,29 @@
         const inputs = document.querySelectorAll('.input');
         let code = '';
 
-        // Fungsi untuk menangani input yang diketikkan oleh pengguna
+        // Fungsi untuk menangani input dari pengguna
         inputs.forEach((input, index) => {
-            input.addEventListener('focus', function() {
-                // Ketika input di klik, otomatis hapus teks sebelumnya (jika ada)
-                input.textContent = '';
-            });
-
-            input.addEventListener('input', function() {
-                // Jika input sudah diisi, tambahkan kelas filled
-                if (input.textContent.trim() !== '') {
+            input.addEventListener('click', function() {
+                // Mengatur fokus agar dapat mengetikkan angka di tempat input
+                let newInput = prompt('Masukkan kode:');
+                if (newInput && newInput.length === 1 && /^[0-9a-zA-Z]*$/.test(newInput)) {
+                    input.textContent = newInput.toUpperCase(); // Menampilkan karakter yang dimasukkan
                     input.classList.add('filled');
-                    code = ''; // Reset kode
+                    code = ''; // Reset kode untuk perhitungan
                     inputs.forEach((inputEl) => {
                         code += inputEl.textContent.trim();
                     });
                 }
-
-                // Cek apakah kode sudah lengkap
-                if (code.length === 9) {
-                    // Jika lengkap, langsung arahkan ke halaman baru
-                    window.location.href = "beranda.html"; // Ganti dengan URL yang sesuai
-                }
             });
         });
+
+        // Mengecek apakah kode sudah lengkap (9 karakter)
+        setInterval(() => {
+            if (code.length === 9) {
+                // Jika kode lengkap, arahkan ke halaman baru
+                window.location.href = "beranda.html"; // Ganti dengan URL yang sesuai
+            }
+        }, 100);
     </script>
 </body>
 </html>
