@@ -27,6 +27,7 @@
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
             max-width: 800px;
+            width: 100%;
             padding: 30px;
             color: #fff;
             font-size: 18px;
@@ -47,23 +48,33 @@
             display: flex;
             justify-content: center;
             gap: 10px;
+            font-size: 20px;
         }
 
+        /* Kolom input kode akses */
         .code-box {
-            font-size: 30px;
-            color: #fff;
-            border-bottom: 2px solid #f00;
             width: 30px;
+            height: 30px;
             text-align: center;
-            padding: 10px;
-            background-color: transparent;
+            border-bottom: 2px solid #f00;
+            background-color: #222;
+            color: white;
+            font-size: 24px;
+            margin: 5px;
         }
 
         .code-box:focus {
             outline: none;
-            border-color: #ff0000;
+            border-color: #f00;
+            box-shadow: 0 0 5px rgba(255, 0, 0, 0.7);
         }
 
+        /* Efek setelah kode dimasukkan */
+        .hidden {
+            display: none;
+        }
+
+        /* Gambar dan informasi untuk membeli kode */
         .image-container img {
             max-width: 100%;
             border-radius: 10px;
@@ -87,16 +98,6 @@
         .purchase-info a:hover {
             text-decoration: underline;
         }
-
-        /* Efek setelah kode dimasukkan */
-        .hidden {
-            display: none;
-        }
-
-        /* Sembunyikan input ketika diisi */
-        .hidden-input {
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -104,23 +105,17 @@
         <h1>Permintaan Kode Akses</h1>
         <p>Masukkan kode yang diberikan oleh admin untuk melanjutkan.</p>
         
+        <!-- Kolom untuk memasukkan kode -->
         <div class="code-input">
-            <!-- Kolom kode yang terdiri dari 9 bagian -->
-            <div class="code-box" id="code1"></div>
-            <div class="code-box" id="code2"></div>
-            <div class="code-box" id="code3"></div>
-            <div class="code-box" id="code4"></div>
-            <div class="code-box" id="code5"></div>
-            <div class="code-box" id="code6"></div>
-            <div class="code-box" id="code7"></div>
-            <div class="code-box" id="code8"></div>
-            <div class="code-box" id="code9"></div>
-        </div>
-
-        <!-- Menampilkan kode acak -->
-        <div class="generated-code">
-            <p>Setelah membeli kode, hubungi admin untuk mendapatkan kode akses.</p>
-            <p id="randomCode"></p>
+            <input type="text" id="code1" class="code-box" maxlength="1" oninput="moveFocus(1)">
+            <input type="text" id="code2" class="code-box" maxlength="1" oninput="moveFocus(2)">
+            <input type="text" id="code3" class="code-box" maxlength="1" oninput="moveFocus(3)">
+            <input type="text" id="code4" class="code-box" maxlength="1" oninput="moveFocus(4)">
+            <input type="text" id="code5" class="code-box" maxlength="1" oninput="moveFocus(5)">
+            <input type="text" id="code6" class="code-box" maxlength="1" oninput="moveFocus(6)">
+            <input type="text" id="code7" class="code-box" maxlength="1" oninput="moveFocus(7)">
+            <input type="text" id="code8" class="code-box" maxlength="1" oninput="moveFocus(8)">
+            <input type="text" id="code9" class="code-box" maxlength="1" oninput="moveFocus(9)">
         </div>
 
         <!-- Gambar dan informasi untuk membeli kode -->
@@ -134,63 +129,29 @@
     </div>
 
     <script>
-        // Fungsi untuk menghasilkan kode acak 9 digit dengan angka dan simbol
-        function generateRandomCode() {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?';
-            let result = '';
-            for (let i = 0; i < 9; i++) {
-                const randomIndex = Math.floor(Math.random() * characters.length);
-                result += characters[randomIndex];
+        // Fungsi untuk memindahkan fokus ke kolom berikutnya
+        function moveFocus(currentCode) {
+            if (currentCode < 9) {
+                let nextCode = document.getElementById('code' + (currentCode + 1));
+                if (nextCode) nextCode.focus();
             }
-            return result;
+            validateCode(); // Verifikasi kode setelah setiap input
         }
-
-        // Menampilkan kode acak di halaman
-        document.getElementById('randomCode').innerText = 'Kode Akses Anda: ' + generateRandomCode();
-
-        // Fungsi untuk menangani input kode
-        function handleCodeInput(event, nextElement) {
-            const codeBoxes = document.querySelectorAll('.code-box');
-            for (let i = 0; i < codeBoxes.length; i++) {
-                if (codeBoxes[i] === event.target) {
-                    codeBoxes[i].innerText = '🔥';
-                }
-            }
-
-            // Pindah ke input berikutnya
-            if (nextElement) {
-                nextElement.focus();
-            }
-        }
-
-        // Menambahkan event listener ke setiap kotak kode
-        const codeBoxes = document.querySelectorAll('.code-box');
-        codeBoxes.forEach((box, index) => {
-            box.addEventListener('click', () => box.focus());
-            box.addEventListener('input', function (event) {
-                handleCodeInput(event, codeBoxes[index + 1] || null);
-            });
-        });
 
         // Fungsi untuk memverifikasi kode yang dimasukkan
-        function submitCode() {
+        function validateCode() {
             let code = '';
-            document.querySelectorAll('.code-box').forEach(box => {
-                code += box.innerText;
-            });
+            for (let i = 1; i <= 9; i++) {
+                code += document.getElementById('code' + i).value;
+            }
 
-            // Cek apakah kode valid
-            const validCodes = [
-                'A1B2C3D4E',  // Kode pertama
-                'F5G6H7I8J',  // Kode kedua
-                'K9L0M1N2O',  // Kode ketiga
-            ];
-
-            if (validCodes.includes(code)) {
-                alert("Kode Anda valid. Silakan lanjut ke halaman beranda.");
-                window.location.href = "beranda.html"; // Ganti dengan URL halaman beranda Anda
-            } else {
-                alert("Kode yang dimasukkan tidak valid. Harap masukkan kode yang diberikan oleh admin.");
+            if (code.length === 9) {
+                if (code === "KODEVALID123") { // Ganti dengan kode valid yang Anda tentukan
+                    alert("Kode valid! Selamat datang di halaman beranda.");
+                    window.location.href = "beranda.html"; // Ganti dengan URL halaman beranda Anda
+                } else {
+                    alert("Kode yang dimasukkan tidak valid.");
+                }
             }
         }
     </script>
