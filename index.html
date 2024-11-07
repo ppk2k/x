@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Permintaan Kode Akses</title>
+    <title>Masukkan Kode Akses</title>
     <style>
-        /* Styling untuk seluruh halaman */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #000;
@@ -18,152 +17,87 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            overflow: hidden;
         }
 
-        /* Container umum untuk setiap halaman */
         .container {
             background-color: rgba(0, 0, 0, 0.8);
             border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
-            max-width: 800px;
-            width: 100%;
             padding: 30px;
+            max-width: 500px;
+            width: 100%;
             color: #fff;
-            font-size: 18px;
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
-            position: relative;
-        }
-
-        h1 {
-            font-size: 40px;
-            color: #f00;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-        }
-
-        .code-input {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
             font-size: 20px;
         }
 
-        /* Kolom input kode akses */
-        .code-box {
-            width: 30px;
-            height: 30px;
-            text-align: center;
-            border-bottom: 2px solid #f00;
-            background-color: #222;
-            color: white;
-            font-size: 24px;
-            margin: 5px;
-        }
-
-        .code-box:focus {
-            outline: none;
-            border-color: #f00;
-            box-shadow: 0 0 5px rgba(255, 0, 0, 0.7);
-        }
-
-        .code-box.empty {
-            color: #bbb;
-        }
-
-        /* Gambar dan informasi untuk membeli kode */
-        .image-container img {
-            max-width: 100%;
-            border-radius: 10px;
-            margin-top: 30px;
-            filter: grayscale(100%) brightness(50%);
-        }
-
-        .purchase-info {
-            margin-top: 20px;
-            font-size: 16px;
+        h1 {
+            font-size: 36px;
             color: #f00;
-            text-shadow: 0 0 5px rgba(255, 0, 0, 1);
+            margin-bottom: 20px;
         }
 
-        .purchase-info a {
+        .code-display {
+            font-size: 30px;
+            letter-spacing: 10px;
+            color: #f00;
+        }
+
+        .code-display span {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            margin: 5px;
+            line-height: 40px;
+        }
+
+        .filled {
             color: #ff6600;
-            text-decoration: none;
-            font-weight: bold;
+            font-size: 28px;
         }
 
-        .purchase-info a:hover {
-            text-decoration: underline;
+        .input {
+            color: #f00;
+        }
+
+        p {
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Permintaan Kode Akses</h1>
-        <p>Masukkan kode yang diberikan oleh admin untuk melanjutkan.</p>
-        
-        <!-- Kolom untuk memasukkan kode -->
-        <div class="code-input">
-            <input type="text" id="code1" class="code-box empty" maxlength="1" oninput="moveFocus(1)" onclick="handleClick(1)">
-            <input type="text" id="code2" class="code-box empty" maxlength="1" oninput="moveFocus(2)" onclick="handleClick(2)">
-            <input type="text" id="code3" class="code-box empty" maxlength="1" oninput="moveFocus(3)" onclick="handleClick(3)">
-            <input type="text" id="code4" class="code-box empty" maxlength="1" oninput="moveFocus(4)" onclick="handleClick(4)">
-            <input type="text" id="code5" class="code-box empty" maxlength="1" oninput="moveFocus(5)" onclick="handleClick(5)">
-            <input type="text" id="code6" class="code-box empty" maxlength="1" oninput="moveFocus(6)" onclick="handleClick(6)">
-            <input type="text" id="code7" class="code-box empty" maxlength="1" oninput="moveFocus(7)" onclick="handleClick(7)">
-            <input type="text" id="code8" class="code-box empty" maxlength="1" oninput="moveFocus(8)" onclick="handleClick(8)">
-            <input type="text" id="code9" class="code-box empty" maxlength="1" oninput="moveFocus(9)" onclick="handleClick(9)">
-        </div>
-
-        <!-- Gambar dan informasi untuk membeli kode -->
-        <div class="image-container">
-            <img src="gambar-beli-kode.jpg" alt="Beli Kode">
-        </div>
-
-        <div class="purchase-info">
-            <p>Untuk membeli kode, silakan <a href="https://example.com" target="_blank">hubungi admin</a>. Admin akan memberikan kode setelah pembayaran berhasil.</p>
+        <h1>Masukkan Kode Akses</h1>
+        <p>Masukkan kode 9 digit yang diberikan oleh admin:</p>
+        <div class="code-display" id="codeDisplay">
+            <span class="input">_</span><span class="input">_</span><span class="input">_</span>
+            <span class="input">_</span><span class="input">_</span><span class="input">_</span>
+            <span class="input">_</span><span class="input">_</span><span class="input">_</span>
         </div>
     </div>
 
     <script>
-        // Fungsi untuk memindahkan fokus ke kolom berikutnya
-        function moveFocus(currentCode) {
-            if (currentCode < 9) {
-                let nextCode = document.getElementById('code' + (currentCode + 1));
-                if (nextCode) nextCode.focus();
-            }
-            validateCode(); // Verifikasi kode setelah setiap input
-        }
+        const codeDisplay = document.getElementById('codeDisplay');
+        const codeElements = codeDisplay.getElementsByClassName('input');
+        let code = '';
 
-        // Fungsi untuk menangani klik pada kolom kode
-        function handleClick(codeIndex) {
-            let codeBox = document.getElementById('code' + codeIndex);
-            // Jika kolom kosong, ganti dengan '-'
-            if (codeBox.value === "") {
-                codeBox.value = "-";
-            }
-            codeBox.classList.remove("empty"); // Menghilangkan kelas empty
-            codeBox.setAttribute("readonly", "true"); // Membuat kolom tidak bisa diubah setelah klik
-        }
+        document.addEventListener('keydown', (event) => {
+            const key = event.key;
 
-        // Fungsi untuk memverifikasi kode yang dimasukkan
-        function validateCode() {
-            let code = '';
-            for (let i = 1; i <= 9; i++) {
-                code += document.getElementById('code' + i).value;
-            }
-
-            if (code.length === 9) {
-                if (code === "123456789") { // Ganti dengan kode valid yang Anda tentukan
-                    alert("Kode valid! Selamat datang di halaman beranda.");
-                    window.location.href = "beranda.html"; // Ganti dengan URL halaman beranda Anda
-                } else {
-                    alert("Kode yang dimasukkan tidak valid.");
+            // Mengisi kode jika yang ditekan adalah angka atau simbol yang valid
+            if ((key >= '0' && key <= '9') || ['!', '@', '#', '$', '%', '^', '&', '*'].includes(key)) {
+                for (let i = 0; i < codeElements.length; i++) {
+                    if (codeElements[i].textContent === '_') {
+                        codeElements[i].textContent = '🔥'; // Mengganti _ dengan simbol
+                        code += key; // Menambahkan kode yang dimasukkan
+                        break;
+                    }
                 }
             }
-        }
+
+            // Jika kode sudah lengkap, langsung arahkan tanpa notifikasi
+            if (code.length === 9) {
+                window.location.href = "beranda.html"; // Ganti dengan halaman yang sesuai
+            }
+        });
     </script>
 </body>
 </html>
