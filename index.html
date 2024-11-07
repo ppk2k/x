@@ -119,21 +119,26 @@
         <div class="code-input">
             <label for="vipCode">Masukkan Kode Akses Anda:</label>
             <input type="text" id="vipCode" placeholder="Masukkan kode 9 digit" required>
-            <button onclick="submitCode()">Kirim</button>
         </div>
 
+        <!-- Menampilkan kode acak -->
         <div class="generated-code">
             <p>Setelah membeli kode, hubungi admin untuk mendapatkan kode akses.</p>
-            <p id="randomCode"></p> <!-- Menampilkan kode acak -->
+            <p id="randomCode"></p>
         </div>
 
-        <!-- Gambar dan keterangan untuk membeli kode -->
+        <!-- Gambar dan informasi untuk membeli kode -->
         <div class="image-container">
             <img src="gambar-beli-kode.jpg" alt="Beli Kode">
         </div>
 
         <div class="purchase-info">
             <p>Untuk membeli kode, silakan <a href="https://example.com" target="_blank">hubungi admin</a>. Admin akan memberikan kode setelah pembayaran berhasil.</p>
+        </div>
+
+        <!-- Tombol Buy untuk melanjutkan pembelian -->
+        <div class="buy-button-container">
+            <button onclick="buyCode()">Buy</button>
         </div>
     </div>
 
@@ -160,11 +165,18 @@
                 document.querySelector('.code-input').classList.add('hidden');
                 document.querySelector('.generated-code').classList.add('hidden');
                 document.querySelector('.purchase-info').classList.add('hidden');
+                document.querySelector('.buy-button-container').classList.add('hidden');
                 alert("Kode Anda valid. Silakan lanjut ke halaman beranda.");
                 window.location.href = "beranda.html"; // Ganti dengan URL halaman beranda Anda
             } else {
                 alert("Kode yang dimasukkan tidak valid. Harap masukkan 9 digit kode yang diberikan oleh admin.");
             }
+        }
+
+        // Fungsi untuk tombol Buy
+        function buyCode() {
+            alert("Anda telah membeli kode. Silakan hubungi admin untuk mendapatkan kode akses.");
+            // Dapat ditambahkan logika lain sesuai kebutuhan
         }
     </script>
 </body>
