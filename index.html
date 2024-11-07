@@ -1,149 +1,73 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masukkan Kode Akses</title>
+    <title>P2K - Kode Pembelian</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #000;
-            color: #ddd;
-            text-align: center;
-            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        .container {
-            background-color: rgba(0, 0, 0, 0.8);
-            border-radius: 15px;
-            padding: 40px;
-            max-width: 500px;
-            width: 100%;
-            color: #fff;
-            font-size: 20px;
-            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.7);
-        }
-
-        h1 {
-            font-size: 36px;
-            color: #f00;
-            margin-bottom: 20px;
-        }
-
-        .code-display {
-            font-size: 30px;
-            letter-spacing: 10px;
-            color: #f00;
-        }
-
-        .input {
-            display: inline-block;
-            width: 30px;
-            height: 40px;
+            padding: 0;
             text-align: center;
-            line-height: 40px;
-            margin: 5px;
-            font-size: 30px;
-            color: #f00;
-            border: 1px solid #f00;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
         }
-
-        .input.filled {
-            color: #ff6600;
-            background-color: #111;
+        header {
+            background-color: #333;
+            color: white;
+            padding: 15px;
         }
-
-        .bracket {
-            display: inline-block;
-            margin: 0 5px;
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
         }
-
-        p {
+        .info-box {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .vip-code-info {
+            background-color: #ff9800;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px auto;
+            width: 80%;
             font-size: 18px;
-            margin-top: 20px;
-        }
-
-        .contact {
-            font-size: 16px;
-            color: #ff6600;
-            cursor: pointer;
-            margin-top: 15px;
-        }
-
-        .contact:hover {
-            text-decoration: underline;
-        }
-
-        .image-container {
-            margin-top: 20px;
-        }
-
-        img {
-            width: 200px;
-            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Masukkan Kode Akses</h1>
-        <p>Masukkan kode 9 digit yang diberikan oleh admin:</p>
-        <div class="code-display" id="codeDisplay">
-            <span class="bracket">[</span>
-            <span class="input" id="input1"></span>
-            <span class="input" id="input2"></span>
-            <span class="input" id="input3"></span>
-            <span class="input" id="input4"></span>
-            <span class="input" id="input5"></span>
-            <span class="input" id="input6"></span>
-            <span class="input" id="input7"></span>
-            <span class="input" id="input8"></span>
-            <span class="input" id="input9"></span>
-            <span class="bracket">]</span>
-        </div>
-        <p class="contact" onclick="window.location.href='hubungi-admin.html'">Klik di sini untuk menghubungi admin jika Anda belum memiliki kode.</p>
-        <div class="image-container">
-            <img src="https://via.placeholder.com/200" alt="Hubungi Admin" onclick="window.location.href='hubungi-admin.html'">
-        </div>
+
+<header>
+    <h1>P2K - Kode Pembelian</h1>
+</header>
+
+<div class="container">
+    <div class="info-box">
+        <h2>Info Pembelian Kode Akses</h2>
+        <p>Untuk mendapatkan kode akses VIP, Anda harus melakukan pembelian sebesar <strong>9 BTC</strong>.</p>
+        <p>Pembelian kode hanya dapat dilakukan melalui admin yang dapat memberikan informasi terkait pembayaran. Setelah pembayaran diterima, admin akan memberikan kode akses VIP 9-digit.</p>
     </div>
 
-    <script>
-        const inputs = document.querySelectorAll('.input');
-        let code = '';
+    <div class="info-box">
+        <h2>Tempat Pembelian</h2>
+        <img src="your-product-image.jpg" alt="Foto Produk" class="product-image">
+        <p>Gambar produk tempat pembelian kode.</p>
+    </div>
 
-        inputs.forEach((input, index) => {
-            input.addEventListener('click', function() {
-                let newInput = prompt('Masukkan kode (1 karakter):');
-                if (newInput && newInput.length === 1 && /^[0-9a-zA-Z]*$/.test(newInput)) {
-                    input.textContent = newInput.toUpperCase();
-                    input.classList.add('filled');
-                    code = '';
-                    inputs.forEach((inputEl) => {
-                        code += inputEl.textContent.trim();
-                    });
-                }
-            });
-        });
+    <div class="vip-code-info">
+        <h3>Penting:</h3>
+        <p>Kode akses VIP hanya dapat diperoleh setelah transaksi pembelian dengan 9 BTC dilakukan dan diverifikasi oleh admin.</p>
+    </div>
+</div>
 
-        setInterval(() => {
-            if (code.length === 9) {
-                if (code === 'VALIDKODE') { // Ubah dengan kode valid yang sebenarnya
-                    alert('Kode valid! Anda berhasil masuk.');
-                    window.location.href = "home.html"; // Mengarahkan ke halaman home setelah kode valid
-                } else {
-                    alert('Kode salah! Silakan coba lagi.');
-                    location.reload(); // Reload untuk mencoba lagi
-                }
-            }
-        }, 100);
-    </script>
 </body>
 </html>
