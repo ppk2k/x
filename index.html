@@ -82,6 +82,14 @@
             text-decoration: underline;
         }
 
+        .image-container {
+            margin-top: 20px;
+        }
+
+        img {
+            width: 200px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -101,22 +109,23 @@
             <span class="input" id="input9"></span>
             <span class="bracket">]</span>
         </div>
-        <p class="contact" onclick="alert('Hubungi admin untuk mendapatkan kode!')">Klik di sini untuk menghubungi admin jika Anda belum memiliki kode.</p>
+        <p class="contact" onclick="window.location.href='hubungi-admin.html'">Klik di sini untuk menghubungi admin jika Anda belum memiliki kode.</p>
+        <div class="image-container">
+            <img src="https://via.placeholder.com/200" alt="Hubungi Admin" onclick="window.location.href='hubungi-admin.html'">
+        </div>
     </div>
 
     <script>
         const inputs = document.querySelectorAll('.input');
         let code = '';
 
-        // Fungsi untuk menangani input dari pengguna
         inputs.forEach((input, index) => {
             input.addEventListener('click', function() {
-                // Mengatur fokus agar dapat mengetikkan angka di tempat input
                 let newInput = prompt('Masukkan kode (1 karakter):');
                 if (newInput && newInput.length === 1 && /^[0-9a-zA-Z]*$/.test(newInput)) {
-                    input.textContent = newInput.toUpperCase(); // Menampilkan karakter yang dimasukkan
+                    input.textContent = newInput.toUpperCase();
                     input.classList.add('filled');
-                    code = ''; // Reset kode untuk perhitungan
+                    code = '';
                     inputs.forEach((inputEl) => {
                         code += inputEl.textContent.trim();
                     });
@@ -124,12 +133,15 @@
             });
         });
 
-        // Mengecek apakah kode sudah lengkap (9 karakter)
         setInterval(() => {
             if (code.length === 9) {
-                // Jika kode lengkap, arahkan ke halaman baru
-                alert('Kode lengkap! Anda telah berhasil masuk.');
-                // window.location.href = "beranda.html"; // Ganti dengan URL yang sesuai
+                if (code === 'VALIDKODE') { // Ubah dengan kode valid yang sebenarnya
+                    alert('Kode valid! Anda berhasil masuk.');
+                    window.location.href = "home.html"; // Mengarahkan ke halaman home setelah kode valid
+                } else {
+                    alert('Kode salah! Silakan coba lagi.');
+                    location.reload(); // Reload untuk mencoba lagi
+                }
             }
         }, 100);
     </script>
