@@ -7,31 +7,39 @@
     <style>
         /* Styling untuk seluruh halaman */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            color: #333;
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: #ddd;
             text-align: center;
             padding: 20px;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow: hidden;
         }
 
         /* Container umum untuk setiap halaman */
         .container {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
             max-width: 800px;
-            margin: 0 auto;
             padding: 30px;
+            color: #fff;
+            font-size: 18px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+            position: relative;
         }
 
         h1 {
-            color: #007BFF;
-        }
-
-        .info {
-            margin-top: 20px;
-            font-size: 16px;
-            color: #777;
+            font-size: 40px;
+            color: #f00;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
         }
 
         .code-input {
@@ -39,39 +47,75 @@
         }
 
         input[type="text"] {
-            padding: 10px;
+            padding: 12px;
             width: 80%;
             border-radius: 5px;
-            border: 1px solid #ddd;
+            border: 2px solid #f00;
+            background-color: #222;
+            color: #fff;
+            font-size: 20px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #ff0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 1);
         }
 
         button {
-            padding: 10px 20px;
-            background-color: #007BFF;
+            padding: 12px 25px;
+            background-color: #f00;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 20px;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #c00;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 1);
         }
 
-        .generated-code {
+        .image-container img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 30px;
+            filter: grayscale(100%) brightness(50%);
+        }
+
+        .purchase-info {
             margin-top: 20px;
-            font-size: 18px;
-            color: #333;
+            font-size: 16px;
+            color: #f00;
+            text-shadow: 0 0 5px rgba(255, 0, 0, 1);
+        }
+
+        .purchase-info a {
+            color: #ff6600;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .purchase-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* Efek setelah kode dimasukkan */
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Permintaan Kode Akses</h1>
-        <p>Untuk mendapatkan kode akses, Anda harus membeli kode senilai 9 BTC.</p>
+        <p>Masukkan kode yang diberikan oleh admin untuk melanjutkan.</p>
         
-        <p class="info">Setelah melakukan pembelian, silakan hubungi admin untuk mendapatkan kode akses. Kode ini akan diberikan setelah pembayaran berhasil.</p>
-
         <div class="code-input">
             <label for="vipCode">Masukkan Kode Akses Anda:</label>
             <input type="text" id="vipCode" placeholder="Masukkan kode 9 digit" required>
@@ -79,46 +123,49 @@
         </div>
 
         <div class="generated-code">
-            <p>Berikut adalah 9 kode acak yang terdiri dari angka dan simbol:</p>
-            <ul id="codeList"></ul>
+            <p>Setelah membeli kode, hubungi admin untuk mendapatkan kode akses.</p>
+            <p id="randomCode"></p> <!-- Menampilkan kode acak -->
+        </div>
+
+        <!-- Gambar dan keterangan untuk membeli kode -->
+        <div class="image-container">
+            <img src="gambar-beli-kode.jpg" alt="Beli Kode">
+        </div>
+
+        <div class="purchase-info">
+            <p>Untuk membeli kode, silakan <a href="https://example.com" target="_blank">hubungi admin</a>. Admin akan memberikan kode setelah pembayaran berhasil.</p>
         </div>
     </div>
 
     <script>
-        // Fungsi untuk menghasilkan kode acak dengan angka dan simbol
+        // Fungsi untuk menghasilkan kode acak 9 digit dengan angka dan simbol
         function generateRandomCode() {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
-            let code = '';
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?';
+            let result = '';
             for (let i = 0; i < 9; i++) {
                 const randomIndex = Math.floor(Math.random() * characters.length);
-                code += characters[randomIndex];
+                result += characters[randomIndex];
             }
-            return code;
+            return result;
         }
 
-        // Menampilkan 9 kode acak di halaman
-        function displayRandomCodes() {
-            let codeList = document.getElementById('codeList');
-            for (let i = 0; i < 9; i++) {
-                let listItem = document.createElement('li');
-                listItem.textContent = generateRandomCode();
-                codeList.appendChild(listItem);
-            }
-        }
+        // Menampilkan kode acak di halaman
+        document.getElementById('randomCode').innerText = 'Kode Akses Anda: ' + generateRandomCode();
 
-        // Fungsi submit untuk memverifikasi kode
+        // Fungsi untuk memverifikasi kode yang dimasukkan
         function submitCode() {
             let code = document.getElementById('vipCode').value;
             if (code.length === 9) {
-                // Redirect ke halaman beranda setelah kode valid
-                window.location.href = "beranda.html";
+                // Menghilangkan input dan tombol setelah kode dimasukkan
+                document.querySelector('.code-input').classList.add('hidden');
+                document.querySelector('.generated-code').classList.add('hidden');
+                document.querySelector('.purchase-info').classList.add('hidden');
+                alert("Kode Anda valid. Silakan lanjut ke halaman beranda.");
+                window.location.href = "beranda.html"; // Ganti dengan URL halaman beranda Anda
             } else {
-                alert("Kode yang dimasukkan tidak valid. Harap masukkan 9 digit kode.");
+                alert("Kode yang dimasukkan tidak valid. Harap masukkan 9 digit kode yang diberikan oleh admin.");
             }
         }
-
-        // Panggil fungsi untuk menampilkan kode acak saat halaman dimuat
-        displayRandomCodes();
     </script>
 </body>
 </html>
