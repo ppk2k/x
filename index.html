@@ -69,9 +69,8 @@
             box-shadow: 0 0 5px rgba(255, 0, 0, 0.7);
         }
 
-        /* Efek setelah kode dimasukkan */
-        .hidden {
-            display: none;
+        .code-box.empty {
+            color: #bbb;
         }
 
         /* Gambar dan informasi untuk membeli kode */
@@ -107,15 +106,15 @@
         
         <!-- Kolom untuk memasukkan kode -->
         <div class="code-input">
-            <input type="text" id="code1" class="code-box" maxlength="1" oninput="moveFocus(1)">
-            <input type="text" id="code2" class="code-box" maxlength="1" oninput="moveFocus(2)">
-            <input type="text" id="code3" class="code-box" maxlength="1" oninput="moveFocus(3)">
-            <input type="text" id="code4" class="code-box" maxlength="1" oninput="moveFocus(4)">
-            <input type="text" id="code5" class="code-box" maxlength="1" oninput="moveFocus(5)">
-            <input type="text" id="code6" class="code-box" maxlength="1" oninput="moveFocus(6)">
-            <input type="text" id="code7" class="code-box" maxlength="1" oninput="moveFocus(7)">
-            <input type="text" id="code8" class="code-box" maxlength="1" oninput="moveFocus(8)">
-            <input type="text" id="code9" class="code-box" maxlength="1" oninput="moveFocus(9)">
+            <input type="text" id="code1" class="code-box empty" maxlength="1" oninput="moveFocus(1)" onclick="handleClick(1)">
+            <input type="text" id="code2" class="code-box empty" maxlength="1" oninput="moveFocus(2)" onclick="handleClick(2)">
+            <input type="text" id="code3" class="code-box empty" maxlength="1" oninput="moveFocus(3)" onclick="handleClick(3)">
+            <input type="text" id="code4" class="code-box empty" maxlength="1" oninput="moveFocus(4)" onclick="handleClick(4)">
+            <input type="text" id="code5" class="code-box empty" maxlength="1" oninput="moveFocus(5)" onclick="handleClick(5)">
+            <input type="text" id="code6" class="code-box empty" maxlength="1" oninput="moveFocus(6)" onclick="handleClick(6)">
+            <input type="text" id="code7" class="code-box empty" maxlength="1" oninput="moveFocus(7)" onclick="handleClick(7)">
+            <input type="text" id="code8" class="code-box empty" maxlength="1" oninput="moveFocus(8)" onclick="handleClick(8)">
+            <input type="text" id="code9" class="code-box empty" maxlength="1" oninput="moveFocus(9)" onclick="handleClick(9)">
         </div>
 
         <!-- Gambar dan informasi untuk membeli kode -->
@@ -138,6 +137,17 @@
             validateCode(); // Verifikasi kode setelah setiap input
         }
 
+        // Fungsi untuk menangani klik pada kolom kode
+        function handleClick(codeIndex) {
+            let codeBox = document.getElementById('code' + codeIndex);
+            // Jika kolom kosong, ganti dengan '-'
+            if (codeBox.value === "") {
+                codeBox.value = "-";
+            }
+            codeBox.classList.remove("empty"); // Menghilangkan kelas empty
+            codeBox.setAttribute("readonly", "true"); // Membuat kolom tidak bisa diubah setelah klik
+        }
+
         // Fungsi untuk memverifikasi kode yang dimasukkan
         function validateCode() {
             let code = '';
@@ -146,7 +156,7 @@
             }
 
             if (code.length === 9) {
-                if (code === "KODEVALID123") { // Ganti dengan kode valid yang Anda tentukan
+                if (code === "123456789") { // Ganti dengan kode valid yang Anda tentukan
                     alert("Kode valid! Selamat datang di halaman beranda.");
                     window.location.href = "beranda.html"; // Ganti dengan URL halaman beranda Anda
                 } else {
