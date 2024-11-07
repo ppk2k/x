@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permintaan Kode Akses</title>
+    <style>
+        /* Styling untuk seluruh halaman */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Container umum untuk setiap halaman */
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        h1 {
+            color: #007BFF;
+        }
+
+        .info {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #777;
+        }
+
+        .code-input {
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 80%;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .generated-code {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Permintaan Kode Akses</h1>
+        <p>Untuk mendapatkan kode akses, Anda harus membeli kode senilai 9 BTC.</p>
+        
+        <p class="info">Setelah melakukan pembelian, silakan hubungi admin untuk mendapatkan kode akses. Kode ini akan diberikan setelah pembayaran berhasil.</p>
+
+        <div class="code-input">
+            <label for="vipCode">Masukkan Kode Akses Anda:</label>
+            <input type="text" id="vipCode" placeholder="Masukkan kode 9 digit" required>
+            <button onclick="submitCode()">Kirim</button>
+        </div>
+
+        <div class="generated-code">
+            <p>Berikut adalah 9 kode acak yang terdiri dari angka dan simbol:</p>
+            <ul id="codeList"></ul>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi untuk menghasilkan kode acak dengan angka dan simbol
+        function generateRandomCode() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
+            let code = '';
+            for (let i = 0; i < 9; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                code += characters[randomIndex];
+            }
+            return code;
+        }
+
+        // Menampilkan 9 kode acak di halaman
+        function displayRandomCodes() {
+            let codeList = document.getElementById('codeList');
+            for (let i = 0; i < 9; i++) {
+                let listItem = document.createElement('li');
+                listItem.textContent = generateRandomCode();
+                codeList.appendChild(listItem);
+            }
+        }
+
+        // Fungsi submit untuk memverifikasi kode
+        function submitCode() {
+            let code = document.getElementById('vipCode').value;
+            if (code.length === 9) {
+                // Redirect ke halaman beranda setelah kode valid
+                window.location.href = "beranda.html";
+            } else {
+                alert("Kode yang dimasukkan tidak valid. Harap masukkan 9 digit kode.");
+            }
+        }
+
+        // Panggil fungsi untuk menampilkan kode acak saat halaman dimuat
+        displayRandomCodes();
+    </script>
+</body>
+</html>
