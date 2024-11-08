@@ -37,54 +37,16 @@
       z-index: 1;
     }
 
-    h1 {
-      font-size: 40px;
-      margin-bottom: 20px;
-      letter-spacing: 2px;
+    /* Remove Select Box and Show Only Selected Portal */
+    select {
+      display: none;
     }
 
-    .portal-list {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    select, input, button {
-      margin: 10px;
-      padding: 10px;
-      font-size: 20px;
-      background-color: transparent;
-      border: 2px solid green;
+    #selectedPortal {
+      font-size: 30px;
       color: green;
-      outline: none;
-    }
-
-    select:focus, input:focus, button:focus {
-      border-color: #00FF00;
-    }
-
-    button {
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: green;
-      color: black;
-    }
-
-    /* Input masking with bintang (stars) */
-    input {
-      letter-spacing: 1px;
-      width: 300px;
-    }
-
-    input::-webkit-input-placeholder {
-      color: transparent;
-    }
-
-    input:focus {
-      background-color: transparent;
+      font-weight: bold;
+      text-align: center;
     }
 
     /* Matrix Effect */
@@ -103,15 +65,13 @@
 </head>
 <body>
   <div class="container">
-    <h1>Enter Portal Code</h1>
+    <h1>Choose Your Portal</h1>
     <div class="portal-list">
-      <label for="portalSelect">Select Portal:</label>
-      <select id="portalSelect" onchange="updateInput()">
+      <select id="portalSelect" onchange="selectPortal()">
         <option value="">Select Portal</option>
         <!-- Portal options will be populated here by JavaScript -->
       </select>
-      <input type="text" id="portalCode" placeholder="Enter portal code here" autocomplete="off" oninput="maskInput(event)">
-      <button onclick="validateCode()">Access Portal</button>
+      <div id="selectedPortal" style="display: none;">Portal Selected: </div>
     </div>
   </div>
 
@@ -121,6 +81,8 @@
       .then(response => response.json())
       .then(data => {
         const portalSelect = document.getElementById('portalSelect');
+        const selectedPortal = document.getElementById('selectedPortal');
+
         // Add portal options to the dropdown
         data.portals.forEach(portal => {
           const option = document.createElement('option');
@@ -133,32 +95,16 @@
         console.error('Error loading portals.json:', error);
       });
 
-    function updateInput() {
+    function selectPortal() {
       const portalSelect = document.getElementById('portalSelect');
-      const portalCode = document.getElementById('portalCode');
-      portalCode.value = portalSelect.value;
-    }
+      const selectedPortal = document.getElementById('selectedPortal');
 
-    function maskInput(event) {
-      const input = event.target;
-      input.value = input.value.replace(/./g, '*');  // Replace all characters with asterisks
-    }
-
-    function validateCode() {
-      const portalCode = document.getElementById('portalCode').value;
-      fetch('portals.json')
-        .then(response => response.json())
-        .then(data => {
-          const portal = data.portals.find(p => p.code === portalCode);
-          if (portal) {
-            alert(`Accessing portal: ${portal.name}`);
-          } else {
-            alert('Invalid portal code');
-          }
-        })
-        .catch(error => {
-          console.error('Error validating portal code:', error);
-        });
+      // Show the selected portal and hide the dropdown
+      if (portalSelect.value) {
+        selectedPortal.textContent = `Portal Selected: ${portalSelect.options[portalSelect.selectedIndex].text}`;
+        selectedPortal.style.display = 'block';
+        portalSelect.style.display = 'none';
+      }
     }
   </script>
 </body>
