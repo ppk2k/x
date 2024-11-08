@@ -4,53 +4,94 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal Access</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      background-color: black;
+      font-family: 'Courier New', monospace;
+      color: #00FF00; /* Warna hijau khas Matrix */
+    }
+
+    .container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: #00FF00;
+    }
+
+    .portal-list {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+    }
+
+    #portalCode {
+      width: 300px;
+      padding: 10px;
+      font-size: 1.2rem;
+      margin: 10px;
+      border: 2px solid #00FF00;
+      background-color: black;
+      color: #00FF00;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      border: 2px solid #00FF00;
+      background-color: black;
+      color: #00FF00;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #00FF00;
+      color: black;
+    }
+  </style>
 </head>
 <body>
-  <!-- Container for portal access -->
+
+  <!-- Matrix effect area -->
+  <div class="matrix"></div>
+
+  <!-- Portal Access Area -->
   <div class="container">
-    <h1>Choose Your Portal</h1>
+    <h1>Enter Portal Code</h1>
     <div class="portal-list">
-      <select id="portalSelect" onchange="selectPortal()">
-        <option value="">Select Portal</option>
-        <!-- Portal options will be populated here by JavaScript -->
-      </select>
-      <div id="selectedPortal" style="display: none;">Portal Selected: </div>
+      <label for="portalCode">Enter Portal Code:</label>
+      <input type="text" id="portalCode" placeholder="Enter portal code here" autocomplete="off">
+      <button onclick="validateCode()">Access Portal</button>
     </div>
   </div>
 
-  <!-- Link to matrix.js file for background animation -->
+  <!-- Include the matrix.js file -->
   <script src="matrix.js"></script>
-
   <script>
-    // Fetch portal data from the portals.json file
-    fetch('portals.json')
-      .then(response => response.json())
-      .then(data => {
-        const portalSelect = document.getElementById('portalSelect');
-        const selectedPortal = document.getElementById('selectedPortal');
-
-        // Add portal options to the dropdown
-        data.portals.forEach(portal => {
-          const option = document.createElement('option');
-          option.value = portal.code;
-          option.textContent = portal.name;
-          portalSelect.appendChild(option);
-        });
-      })
-      .catch(error => {
-        console.error('Error loading portals.json:', error);
-      });
-
-    function selectPortal() {
-      const portalSelect = document.getElementById('portalSelect');
-      const selectedPortal = document.getElementById('selectedPortal');
-
-      // Show the selected portal and hide the dropdown
-      if (portalSelect.value) {
-        selectedPortal.textContent = `Portal Selected: ${portalSelect.options[portalSelect.selectedIndex].text}`;
-        selectedPortal.style.display = 'block';
-        portalSelect.style.display = 'none';
+    // Placeholder function to validate portal code
+    function validateCode() {
+      const portalCode = document.getElementById('portalCode').value;
+      // Example of validating a code (you can adjust this part)
+      if (portalCode === "12345678901234567890") {
+        alert("Access granted to the portal!");
+      } else {
+        alert("Invalid portal code.");
       }
     }
   </script>
