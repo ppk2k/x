@@ -15,9 +15,18 @@
       height: 100%;
       width: 100%;
       overflow: hidden;
-      background-color: black;
+      background-color: black; /* Latar belakang hitam */
       font-family: 'Courier New', monospace;
       color: #00FF00; /* Warna hijau khas Matrix */
+    }
+
+    .matrix {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
     }
 
     .container {
@@ -26,6 +35,7 @@
       left: 50%;
       transform: translate(-50%, -50%);
       text-align: center;
+      z-index: 100;
     }
 
     h1 {
@@ -87,7 +97,7 @@
     // Placeholder function to validate portal code
     function validateCode() {
       const portalCode = document.getElementById('portalCode').value;
-      // Example of validating a code (you can adjust this part)
+      // Example of validatingn a code (you can adjust this part)
       if (portalCode === "12345678901234567890") {
         alert("Access granted to the portal!");
       } else {
