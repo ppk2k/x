@@ -3,12 +3,12 @@
 // Create a container for the Matrix effect
 const matrix = document.querySelector('.matrix');
 const columns = Math.floor(window.innerWidth / 20); // Adjust for screen width
-const rows = 30; // Minimum number of rows
+const rows = Math.floor(window.innerHeight / 20); // Adjust for screen height
 
 // Create the initial matrix effect
 let matrixColumns = [];
 
-// Initialize columns
+// Initialize columns and set them up with spans of characters
 for (let i = 0; i < columns; i++) {
   let column = document.createElement('div');
   column.classList.add('column');
@@ -30,9 +30,12 @@ function animateMatrix() {
     let chars = column.querySelectorAll('.char');
     // Randomly assign a character to fall down
     chars.forEach((char, rowIndex) => {
+      // Use Katakana characters (or you can modify this to any character set)
       if (Math.random() < 0.05) {
-        char.textContent = String.fromCharCode(0x30A0 + Math.floor(Math.random() * 96)); // Kanji/Katakana characters
+        char.textContent = String.fromCharCode(0x30A0 + Math.floor(Math.random() * 96)); // Katakana characters
       }
+      
+      // Create a "falling" effect by adjusting the opacity
       if (rowIndex === chars.length - 1) {
         char.style.opacity = '0.1';
       } else {
@@ -41,8 +44,14 @@ function animateMatrix() {
     });
   });
 
-  setTimeout(animateMatrix, 50); // Adjust speed here
+  // Call the function every 50 milliseconds (adjust the speed here)
+  setTimeout(animateMatrix, 50);
 }
 
 // Start the animation
 animateMatrix();
+
+// Ensure the matrix adapts to screen resizing
+window.addEventListener('resize', () => {
+  location.reload(); // Reload the page to adjust the size of the matrix on resize
+});
