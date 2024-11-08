@@ -1,73 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>P2K - Kode Pembelian</title>
+    <title>Penjara Web</title>
     <style>
         body {
+            background-color: black;
+            color: white;
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .page {
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+        input {
+            background-color: transparent;
+            border: none;
+            border-bottom: 2px solid white;
+            color: white;
+            font-size: 20px;
+            width: 80%;
+            max-width: 400px;
             text-align: center;
         }
-        header {
-            background-color: #333;
-            color: white;
-            padding: 15px;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-        }
-        .info-box {
-            background-color: #fff;
-            padding: 20px;
-            margin: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .product-image {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-        }
-        .vip-code-info {
-            background-color: #ff9800;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px auto;
-            width: 80%;
-            font-size: 18px;
-        }
+        input:focus { outline: none; }
     </style>
 </head>
 <body>
-
-<header>
-    <h1>P2K - Kode Pembelian</h1>
-</header>
-
-<div class="container">
-    <div class="info-box">
-        <h2>Info Pembelian Kode Akses</h2>
-        <p>Untuk mendapatkan kode akses VIP, Anda harus melakukan pembelian sebesar <strong>9 BTC</strong>.</p>
-        <p>Pembelian kode hanya dapat dilakukan melalui admin yang dapat memberikan informasi terkait pembayaran. Setelah pembayaran diterima, admin akan memberikan kode akses VIP 9-digit.</p>
+    <!-- Halaman Index -->
+    <div class="page active" id="indexPage">
+        <h1>Selamat datang di Penjara Web</h1>
+        <p>Masukkan domain .onion untuk melanjutkan.</p>
+        <input type="text" id="domainInput" placeholder="Masukkan Domain .onion" />
     </div>
 
-    <div class="info-box">
-        <h2>Tempat Pembelian</h2>
-        <img src="your-product-image.jpg" alt="Foto Produk" class="product-image">
-        <p>Gambar produk tempat pembelian kode.</p>
+    <!-- Halaman Member -->
+    <div class="page" id="memberPage">
+        <h1>Akun Terverifikasi</h1>
+        <input type="text" id="verificationCode" placeholder="Masukkan Kode Verifikasi" />
     </div>
 
-    <div class="vip-code-info">
-        <h3>Penting:</h3>
-        <p>Kode akses VIP hanya dapat diperoleh setelah transaksi pembelian dengan 9 BTC dilakukan dan diverifikasi oleh admin.</p>
+    <!-- Halaman Kode -->
+    <div class="page" id="kodePage">
+        <h1>Masukkan Kode atau Permintaan Akses Admin</h1>
+        <input type="text" id="accessCode" placeholder="Masukkan Kode Verifikasi" />
     </div>
-</div>
 
+    <script>
+        const pages = document.querySelectorAll('.page');
+        const switchPage = (from, to) => {
+            from.classList.remove('active');
+            to.classList.add('active');
+        };
+
+        document.getElementById('domainInput').addEventListener('keypress', e => {
+            if (e.key === 'Enter' && e.target.value.endsWith('.onion')) {
+                switchPage(document.getElementById('indexPage'), document.getElementById('memberPage'));
+            } else if (e.key === 'Enter') alert('Domain tidak valid');
+        });
+
+        document.getElementById('verificationCode').addEventListener('keypress', e => {
+            if (e.key === 'Enter' && e.target.value === '12345') {
+                switchPage(document.getElementById('memberPage'), document.getElementById('kodePage'));
+            } else if (e.key === 'Enter') alert('Kode salah');
+        });
+
+        document.getElementById('accessCode').addEventListener('keypress', e => {
+            if (e.key === 'Enter' && e.target.value === 'admin') alert('Akses Admin Diberikan!');
+            else if (e.key === 'Enter') alert('Kode tidak valid');
+        });
+
+        // Mencegah tindakan keluar
+        window.onload = () => {
+            document.body.addEventListener('keydown', e => e.preventDefault());
+            window.onbeforeunload = () => 'Anda tidak dapat keluar dari halaman ini!';
+        };
+    </script>
 </body>
 </html>
