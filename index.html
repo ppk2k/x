@@ -3,88 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Penjara Web</title>
-    <style>
-        body {
-            background-color: black;
-            color: white;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-        }
-        .page {
-            display: none;
-        }
-        .active {
-            display: block;
-        }
-        input {
-            background-color: transparent;
-            border: none;
-            border-bottom: 2px solid white;
-            color: white;
-            font-size: 20px;
-            width: 80%;
-            max-width: 400px;
-            text-align: center;
-        }
-        input:focus { outline: none; }
-    </style>
+    <title>Luxe Store - Verifikasi</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <!-- Halaman Index -->
-    <div class="page active" id="indexPage">
-        <h1>Selamat datang di Penjara Web</h1>
-        <p>Masukkan domain .onion untuk melanjutkan.</p>
-        <input type="text" id="domainInput" placeholder="Masukkan Domain .onion" />
-    </div>
+    <!-- Halaman Verifikasi -->
+    <div class="verification-container">
+        <h1>Selamat datang di Luxe Store!</h1>
+        <p>Masukkan email atau nomor telepon Anda untuk melanjutkan.</p>
 
-    <!-- Halaman Member -->
-    <div class="page" id="memberPage">
-        <h1>Akun Terverifikasi</h1>
-        <input type="text" id="verificationCode" placeholder="Masukkan Kode Verifikasi" />
-    </div>
+        <form id="verification-form">
+            <input type="text" id="contact-input" placeholder="Email atau Nomor Telepon" required>
+            <button type="submit" id="send-code">Kirim Kode Verifikasi</button>
+        </form>
 
-    <!-- Halaman Kode -->
-    <div class="page" id="kodePage">
-        <h1>Masukkan Kode atau Permintaan Akses Admin</h1>
-        <input type="text" id="accessCode" placeholder="Masukkan Kode Verifikasi" />
+        <div id="verification-code-section" style="display:none;">
+            <p>Masukkan kode verifikasi yang dikirimkan ke kontak Anda.</p>
+            <input type="text" id="verification-code" placeholder="Kode Verifikasi">
+            <button id="verify-code">Verifikasi</button>
+        </div>
     </div>
 
     <script>
-        const pages = document.querySelectorAll('.page');
-        const switchPage = (from, to) => {
-            from.classList.remove('active');
-            to.classList.add('active');
-        };
-
-        document.getElementById('domainInput').addEventListener('keypress', e => {
-            if (e.key === 'Enter' && e.target.value.endsWith('.onion')) {
-                switchPage(document.getElementById('indexPage'), document.getElementById('memberPage'));
-            } else if (e.key === 'Enter') alert('Domain tidak valid');
+        // Simulasi pengiriman kode verifikasi
+        $('#verification-form').on('submit', function(e) {
+            e.preventDefault();
+            const contact = $('#contact-input').val();
+            if (contact) {
+                alert('Kode verifikasi telah dikirim ke ' + contact);
+                $('#verification-code-section').show();
+                $('#send-code').prop('disabled', true);
+            }
         });
 
-        document.getElementById('verificationCode').addEventListener('keypress', e => {
-            if (e.key === 'Enter' && e.target.value === '12345') {
-                switchPage(document.getElementById('memberPage'), document.getElementById('kodePage'));
-            } else if (e.key === 'Enter') alert('Kode salah');
+        // Verifikasi kode
+        $('#verify-code').on('click', function() {
+            const code = $('#verification-code').val();
+            if (code === '123456') {  // Misal, kode verifikasi yang benar adalah '123456'
+                alert('Verifikasi berhasil! Anda sekarang dapat melanjutkan ke toko.');
+                // Arahkan pengguna ke halaman produk atau toko
+                window.location.href = "produk.html";
+            } else {
+                alert('Kode verifikasi salah, coba lagi.');
+            }
         });
-
-        document.getElementById('accessCode').addEventListener('keypress', e => {
-            if (e.key === 'Enter' && e.target.value === 'admin') alert('Akses Admin Diberikan!');
-            else if (e.key === 'Enter') alert('Kode tidak valid');
-        });
-
-        // Mencegah tindakan keluar
-        window.onload = () => {
-            document.body.addEventListener('keydown', e => e.preventDefault());
-            window.onbeforeunload = () => 'Anda tidak dapat keluar dari halaman ini!';
-        };
     </script>
 </body>
 </html>
