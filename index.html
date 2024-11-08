@@ -1,82 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Access</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Access</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to the Mysterious Portal</h1>
-        <p>Enter the access code for the portal of your choice:</p>
-
-        <form id="portalForm">
-            <div class="portal">
-                <label for="portalName">Choose your portal:</label>
-                <select id="portalName" name="portalName">
-                    <option value="1">The Whispering Abyss</option>
-                    <option value="2">Realm of the Forsaken</option>
-                    <option value="3">The Infernal Hollow</option>
-                    <option value="4">Darkened Souls</option>
-                    <option value="5">The Void Walker</option>
-                    <option value="6">Bloodstained Echoes</option>
-                    <option value="7">The Wailing Crypt</option>
-                    <option value="8">Beneath the Blackened Sky</option>
-                    <option value="9">The Cursed Labyrinth</option>
-                    <option value="10">The Eclipsed Gateway</option>
-                    <option value="11">The Bleeding Hollow</option>
-                    <option value="12">The Silent Mourning</option>
-                    <option value="13">The Forgotten Crypt</option>
-                    <option value="14">The Ravaged Sanctum</option>
-                    <option value="15">The Soulbinder’s Curse</option>
-                    <option value="16">Eternal Despair</option>
-                    <option value="17">The Blackened Tomb</option>
-                    <option value="18">The Shattered Veil</option>
-                    <option value="19">The Dying Shadows</option>
-                    <option value="20">The Forsaken Vault</option>
-                    <option value="21">The Hollow Wraiths</option>
-                    <option value="22">The Unholy Depths</option>
-                    <option value="23">The Lost Remnants</option>
-                    <option value="24">The Endless Scream</option>
-                    <option value="25">The Silent Obelisk</option>
-                    <option value="26">Dread of the Fallen</option>
-                    <option value="27">The Haunting Shadow</option>
-                    <option value="28">The Screaming Void</option>
-                    <option value="29">The Phantom Requiem</option>
-                    <option value="30">The Wretched Path</option>
-                    <option value="31">The Abyssal Casket</option>
-                    <option value="32">The Shadowed Abyss</option>
-                    <option value="33">The Forsaken Exile</option>
-                    <option value="34">The Broken Veil</option>
-                    <option value="35">Whispers of the Dark</option>
-                    <option value="36">The Crumbling Realm</option>
-                    <option value="37">Voices of the Fallen</option>
-                    <option value="38">Darkness Unleashed</option>
-                    <option value="39">Grave of the Forgotten</option>
-                    <option value="40">The Eternal Abyss</option>
-                    <option value="41">The Silent Realm</option>
-                    <option value="42">The Cursed Hollow</option>
-                    <option value="43">The Eternal Night</option>
-                    <option value="44">Realm of the Doomed</option>
-                    <option value="45">The Lost Sanctum</option>
-                    <option value="46">The Dread Labyrinth</option>
-                    <option value="47">Phantom’s Embrace</option>
-                    <option value="48">The Forbidden Vault</option>
-                    <option value="49">Eclipse of the End</option>
-                    <option value="50">The Wailing Grave</option>
-                </select>
-
-                <label for="accessCode">Enter 20-digit access code:</label>
-                <input type="text" id="accessCode" name="accessCode" required maxlength="20">
-
-                <button type="submit">Access Portal</button>
-            </div>
-        </form>
-
-        <p id="error" class="error"></p>
+  <div class="container">
+    <h1>Enter Portal Code</h1>
+    <div class="portal-list">
+      <label for="portalSelect">Select Portal:</label>
+      <select id="portalSelect" onchange="updateInput()">
+        <option value="">Select Portal</option>
+        <!-- Portal options will be populated here by JavaScript -->
+      </select>
+      <input type="text" id="portalCode" placeholder="Enter portal code here" autocomplete="off">
+      <button onclick="validateCode()">Access Portal</button>
     </div>
+  </div>
 
-    <script src="script.js"></script>
+  <script>
+    // Fetch portal data from the portals.json file
+    fetch('portals.json')
+      .then(response => response.json())
+      .then(data => {
+        const portalSelect = document.getElementById('portalSelect');
+        // Add portal options to the dropdown
+        data.portals.forEach(portal => {
+          const option = document.createElement('option');
+          option.value = portal.code;
+          option.textContent = portal.name;
+          portalSelect.appendChild(option);
+        });
+      })
+      .catch(error => {
+        console.error('Error loading portals.json:', error);
+      });
+
+    function updateInput() {
+      const portalSelect = document.getElementById('portalSelect');
+      const portalCode = document.getElementById('portalCode');
+      portalCode.value = portalSelect.value;
+    }
+
+    function validateCode() {
+      const portalCode = document.getElementById('portalCode').value;
+      fetch('portals.json')
+        .then(response => response.json())
+        .then(data => {
+          const portal = data.portals.find(p => p.code === portalCode);
+          if (portal) {
+            alert(`Accessing portal: ${portal.name}`);
+          } else {
+            alert('Invalid portal code');
+          }
+        })
+        .catch(error => {
+          console.error('Error validating portal code:', error);
+        });
+    }
+  </script>
 </body>
 </html>
