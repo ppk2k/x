@@ -40,13 +40,14 @@
     /* Matrix Animation */
     @keyframes matrix {
       0% { 
-        transform: translateY(-100%); 
+        transform: translateY(0); 
       }
       100% { 
         transform: translateY(100%); 
       }
     }
 
+    /* Matrix Background Container */
     .matrix-background {
       position: absolute;
       top: 0;
@@ -59,28 +60,22 @@
       white-space: nowrap;
       overflow: hidden;
       z-index: 0;
-      animation: matrix 3s linear infinite;
     }
 
+    /* Adjust for mobile and larger devices */
     .matrix-background span {
       position: absolute;
       top: 0;
       left: 50%;
       transform: translateX(-50%);
-      animation: matrix 0.5s linear infinite;
+      animation: matrix 3s linear infinite;
       opacity: 0.5;
-      font-family: 'Courier New', Courier, monospace;
     }
 
-    /* Animating Characters */
-    .matrix-background span:nth-child(odd) {
-      animation-duration: 2s;
-      animation-delay: 0.5s;
-    }
-
-    .matrix-background span:nth-child(even) {
-      animation-duration: 1.5s;
-      animation-delay: 1s;
+    @media (max-width: 768px) {
+      .matrix-background span {
+        font-size: 14px; /* Smaller font for smaller devices */
+      }
     }
 
     /* Portal Select */
@@ -152,13 +147,17 @@
     matrixBackground.classList.add('matrix-background');
     document.body.appendChild(matrixBackground);
 
+    const numRows = 30; // Minimum number of rows for the matrix effect
+
+    // Create random matrix effect
     setInterval(() => {
       matrixBackground.innerHTML = ''; // Clear the background
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < numRows; i++) {
         const char = koreanChars[Math.floor(Math.random() * koreanChars.length)];
         const span = document.createElement('span');
         span.textContent = char;
-        span.style.top = `${Math.random() * 100}%`;
+        span.style.top = `${(i / numRows) * 100}%`; // Space out the characters
+        span.style.animationDuration = `${Math.random() * 2 + 3}s`; // Randomize speed
         matrixBackground.appendChild(span);
       }
     }, 500);
