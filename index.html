@@ -13,13 +13,10 @@
       background-color: #000;
       overflow: hidden;
       font-family: monospace;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
+      color: #00ff00;
     }
 
-    /* Matrix Rain Animation */
+    /* Matrix Rain Animation Container */
     .matrix {
       position: absolute;
       top: 0;
@@ -30,6 +27,7 @@
       flex-direction: column;
     }
 
+    /* Matrix Character Styling */
     .matrix-char {
       position: absolute;
       top: 0;
@@ -39,6 +37,7 @@
       animation: rain 1.5s infinite;
     }
 
+    /* Keyframes for the falling rain effect */
     @keyframes rain {
       0% {
         opacity: 0.8;
@@ -50,13 +49,7 @@
       }
     }
 
-    /* Styling for the Korean characters rain effect */
-    .matrix-char {
-      font-size: 18px;
-      animation: rain 0.3s linear infinite;
-    }
-
-    /* Creating slight random animation delays */
+    /* Random Animation Delays */
     .matrix-char:nth-child(odd) {
       animation-duration: 2s;
     }
@@ -78,19 +71,27 @@
       '정', '해', '리', '임', '관', '응', '효', '선', '설', '명', '경', '식', '점', '비', '정', '당'
     ];
 
-    // Create random Korean characters falling down
+    // Generate random Korean characters falling down
     function generateMatrixRain() {
-      for (let i = 0; i < 100; i++) {
-        const charElement = document.createElement('div');
-        charElement.classList.add('matrix-char');
-        charElement.textContent = koreanCharacters[Math.floor(Math.random() * koreanCharacters.length)];
-        charElement.style.left = `${Math.random() * 100}%`;
-        charElement.style.animationDelay = `${Math.random() * 2}s`;
-        matrix.appendChild(charElement);
+      // Create enough columns for a full screen effect
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+      const columns = Math.floor(screenWidth / 20); // Adjust character size to fit screen width
+      const rows = Math.floor(screenHeight / 30); // Adjust to ensure characters fall vertically
+
+      for (let i = 0; i < columns; i++) {
+        for (let j = 0; j < rows; j++) {
+          const charElement = document.createElement('div');
+          charElement.classList.add('matrix-char');
+          charElement.textContent = koreanCharacters[Math.floor(Math.random() * koreanCharacters.length)];
+          charElement.style.left = `${i * 20}px`; // 20px width per character
+          charElement.style.animationDelay = `${Math.random() * 5}s`; // Random delay for each character
+          matrix.appendChild(charElement);
+        }
       }
     }
 
-    // Start the Matrix Rain on page load
+    // Start the Matrix Rain when the page loads
     window.onload = generateMatrixRain;
   </script>
 </body>
