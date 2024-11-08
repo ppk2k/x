@@ -3,34 +3,129 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Matrix Effect</title>
+  <title>AI and Technology Animation</title>
   <style>
-    /* Mengatur latar belakang hitam dan font hijau */
-    body {
+    /* Global Styles */
+    body, html {
       margin: 0;
       padding: 0;
-      background-color: black;
+      height: 100%;
+      background-color: #000;
       overflow: hidden;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
     }
 
-    /* Area untuk efek matrix */
     .matrix {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      font-size: 20px;
-      color: green;
-      font-family: 'Courier New', Courier, monospace;
-      white-space: nowrap;
-      pointer-events: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
+
+    .neural-network {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .neuron {
+      width: 20px;
+      height: 20px;
+      margin: 10px;
+      background-color: #00ff00;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: scale(1.5);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+    }
+
+    /* Matrix Background Animation */
+    @keyframes matrix {
+      0% {
+        transform: translateY(-100%);
+      }
+      100% {
+        transform: translateY(100%);
+      }
+    }
+
+    .matrix {
+      animation: matrix 5s linear infinite;
+    }
+
+    .matrix-char {
+      position: absolute;
+      top: 0;
+      font-family: monospace;
+      font-size: 20px;
+      color: #00ff00;
+      opacity: 0;
+      animation: matrix-animation 5s infinite;
+    }
+
+    @keyframes matrix-animation {
+      0% {
+        opacity: 1;
+        transform: translateY(-100%);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(100%);
+      }
+    }
+
   </style>
 </head>
 <body>
-  <div class="matrix"></div> <!-- Area untuk efek matrix -->
+  <div class="matrix">
+    <div class="neural-network">
+      <div class="neuron"></div>
+      <div class="neuron"></div>
+      <div class="neuron"></div>
+      <div class="neuron"></div>
+      <div class="neuron"></div>
+    </div>
+  </div>
 
-  <script src="matrix.js"></script> <!-- Menghubungkan file matrix.js -->
+  <script>
+    // Simulate the Matrix effect by generating random characters
+    const matrix = document.querySelector('.matrix');
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+[]{}|;:,.<>?';
+
+    function generateMatrixEffect() {
+      for (let i = 0; i < 50; i++) {
+        const charElement = document.createElement('div');
+        charElement.classList.add('matrix-char');
+        charElement.textContent = characters.charAt(Math.floor(Math.random() * characters.length));
+        charElement.style.animationDelay = `${Math.random() * 5}s`;
+        matrix.appendChild(charElement);
+      }
+    }
+
+    // Create the Matrix effect on page load
+    window.onload = generateMatrixEffect;
+  </script>
 </body>
 </html>
