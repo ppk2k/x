@@ -8,8 +8,8 @@ const matrixElement = document.querySelector('.matrix');
 
 // Fungsi untuk membuat efek
 function createMatrixEffect() {
-  const numberOfColumns = Math.floor(window.innerWidth / 20);
-  const numberOfRows = Math.floor(window.innerHeight / 30);
+  const numberOfColumns = Math.floor(window.innerWidth / 20); // Hitung kolom berdasarkan lebar layar
+  const numberOfRows = Math.floor(window.innerHeight / 30); // Hitung baris berdasarkan tinggi layar
 
   // Set panjang dan tinggi area matrix
   matrixElement.style.width = `${numberOfColumns * 20}px`;
@@ -18,10 +18,10 @@ function createMatrixEffect() {
   // Membuat array kosong untuk menyimpan kolom
   let columns = [];
   for (let i = 0; i < numberOfColumns; i++) {
-    columns[i] = { y: Math.random() * numberOfRows, speed: Math.random() * 0.5 + 0.5 };
+    columns[i] = { y: Math.floor(Math.random() * numberOfRows), speed: Math.random() * 0.5 + 0.5 };
   }
 
-  // Fungsi untuk menggambar karakter
+  // Fungsi untuk menggambar karakter tanpa pergerakan
   function drawMatrix() {
     // Clear layar setiap frame
     matrixElement.innerHTML = '';
@@ -39,17 +39,12 @@ function createMatrixEffect() {
       charElement.style.top = `${col.y * 30}px`;
       matrixElement.appendChild(charElement);
 
-      // Update posisi vertikal
-      col.y += col.speed;
-
-      // Jika karakter mencapai bagian bawah layar, reset ke atas
-      if (col.y > numberOfRows) {
-        col.y = 0;
-      }
+      // Memastikan karakter tetap berada di posisi yang sama tanpa bergerak
+      col.y = Math.floor(Math.random() * numberOfRows);  // Update y agar karakter selalu muncul di posisi acak
     });
 
-    // Memanggil lagi fungsi drawMatrix dengan animasi request
-    requestAnimationFrame(drawMatrix);
+    // Memanggil lagi fungsi drawMatrix setelah beberapa detik untuk mengganti karakter
+    setTimeout(drawMatrix, 100); // Ganti karakter setiap 100ms
   }
 
   // Mulai efek matrix
