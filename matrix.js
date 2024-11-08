@@ -6,7 +6,8 @@ const matrixBackground = document.createElement('div');
 matrixBackground.classList.add('matrix-background');
 document.body.appendChild(matrixBackground);
 
-const numRows = 30; // Minimum number of rows for the matrix effect
+// Automatically calculate the number of rows based on screen height
+const numRows = Math.max(Math.floor(window.innerHeight / 30), 30); // At least 30 rows
 
 // Add glow effect to the characters
 const createMatrixEffect = () => {
@@ -16,7 +17,6 @@ const createMatrixEffect = () => {
     const span = document.createElement('span');
     span.textContent = char;
     span.classList.add('matrix-char');
-    span.style.top = `${(i / numRows) * 100}%`; // Space out the characters
     span.style.animationDuration = `${Math.random() * 2 + 3}s`; // Randomize speed
     matrixBackground.appendChild(span);
   }
@@ -27,16 +27,27 @@ setInterval(createMatrixEffect, 100);
 
 // Create matrix animation effect (flickering effect) on the characters
 document.styleSheets[0].insertRule(`
+  .matrix-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  
   .matrix-char {
+    position: absolute;
     font-size: 24px;
     color: #00ff00;
     text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00;
     animation: moveUpDown 5s infinite;
   }
-  
+
   @keyframes moveUpDown {
     0% { transform: translateY(0); opacity: 1; }
-    50% { transform: translateY(-10px); opacity: 0.5; }
+    50% { transform: translateY(100vh); opacity: 0.5; }
     100% { transform: translateY(0); opacity: 1; }
   }
 `);
