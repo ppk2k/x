@@ -16,7 +16,7 @@
       color: #00ff00;
     }
 
-    /* Matrix Rain Animation Container */
+    /* Matrix Rain Container */
     .matrix {
       position: absolute;
       top: 0;
@@ -24,66 +24,74 @@
       width: 100%;
       height: 100%;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
     }
 
-    /* Matrix Character Styling */
+    /* Matrix Characters Style */
     .matrix-char {
       position: absolute;
-      top: 0;
       font-size: 20px;
       color: #00ff00;
       opacity: 0.8;
-      animation: rain 2s infinite linear;
-    }
-
-    /* Keyframes for the falling rain effect */
-    @keyframes rain {
-      0% {
-        opacity: 0.8;
-        transform: translateY(-100%);
-      }
-      100% {
-        opacity: 0.8;
-        transform: translateY(100vh); /* Ensure characters fall to the bottom of the screen */
-      }
+      display: inline-block;
+      width: 20px;  /* Width of each column */
     }
 
   </style>
 </head>
 <body>
+
   <div class="matrix"></div>
 
   <script>
-    // Simulate the Matrix effect with Korean characters
-    const matrix = document.querySelector('.matrix');
+    // Korean characters for the Matrix effect
     const koreanCharacters = [
       '한', '글', '한국', '은', '남', '북', '이', '나', '뉘', '정', '고', '사', '주', '운', '민', '혜',
       '정', '해', '리', '임', '관', '응', '효', '선', '설', '명', '경', '식', '점', '비', '정', '당'
     ];
 
-    // Generate random Korean characters falling down
-    function generateMatrixRain() {
-      // Create enough columns for a full screen effect
-      const screenWidth = window.innerWidth;
-      const screenHeight = window.innerHeight;
-      const columns = Math.floor(screenWidth / 20); // Adjust character size to fit screen width
-      const rows = Math.floor(screenHeight / 30); // Adjust to ensure characters fall vertically
+    const matrixContainer = document.querySelector('.matrix');
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
 
-      for (let i = 0; i < columns; i++) {
-        for (let j = 0; j < rows; j++) {
+    const numColumns = Math.floor(screenWidth / 20);  // Adjust to screen width
+    const numRows = Math.floor(screenHeight / 30);    // Adjust to screen height
+
+    function generateMatrixEffect() {
+      for (let i = 0; i < numColumns; i++) {
+        // Create columns of matrix characters
+        const column = document.createElement('div');
+        column.style.position = 'relative';
+        column.style.width = '20px';
+        column.style.height = '100%';
+        matrixContainer.appendChild(column);
+
+        // Add characters in each column
+        for (let j = 0; j < numRows; j++) {
           const charElement = document.createElement('div');
           charElement.classList.add('matrix-char');
           charElement.textContent = koreanCharacters[Math.floor(Math.random() * koreanCharacters.length)];
-          charElement.style.left = `${i * 20}px`; // 20px width per character
-          charElement.style.animationDelay = `${Math.random() * 5}s`; // Random delay for each character
-          matrix.appendChild(charElement);
+          charElement.style.top = `${j * 30}px`; // Each character is spaced by 30px vertically
+          column.appendChild(charElement);
         }
       }
     }
 
-    // Start the Matrix Rain when the page loads
-    window.onload = generateMatrixRain;
+    function changeCharacters() {
+      const chars = document.querySelectorAll('.matrix-char');
+      chars.forEach(char => {
+        char.textContent = koreanCharacters[Math.floor(Math.random() * koreanCharacters.length)];
+      });
+    }
+
+    // Start the matrix effect when the page loads
+    window.onload = function() {
+      generateMatrixEffect();
+      setInterval(changeCharacters, 100);  // Change characters every 100ms
+    };
   </script>
+
 </body>
 </html>
